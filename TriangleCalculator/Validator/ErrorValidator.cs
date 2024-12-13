@@ -2,8 +2,6 @@
 
 public class ErrorValidator(double side) : IInputValidator
 {
-    private readonly double side = side;
-
     public bool Validate(double value)
     {
         double minVal = Math.Pow(10, -16);

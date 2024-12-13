@@ -1,30 +1,33 @@
-﻿using TriangleCalculator;
-using TriangleCalculator.Validator;
+﻿using TriangleCalculator.Validator;
 
-class Program
+namespace TriangleCalculator;
+
+internal static class Program
 {
-    static void Main()
+    public static void Main()
     {
         while (true)
         {
             Console.WriteLine("Program to calculate the area of a triangle with error margins.");
 
-            double A = InputAndValidate("A", new SideValidator(),
+            IInputValidator sideValidator = new SideValidator();
+
+            double sideA = InputAndValidate("A", sideValidator,
                 "Enter the length of side A (from 10^-16 to 10^16, >0): ");
-            double dA = InputAndValidate("dA", new ErrorValidator(A),
+            double dA = InputAndValidate("dA", new ErrorValidator(sideA),
                 "Enter the absolute error for A (dA): ");
 
-            double B = InputAndValidate("B", new SideValidator(),
+            double sideB = InputAndValidate("B", sideValidator,
                 "Enter the length of side B (from 10^-16 to 10^16, >0): ");
-            double dB = InputAndValidate("dB", new ErrorValidator(B),
+            double dB = InputAndValidate("dB", new ErrorValidator(sideB),
                 "Enter the absolute error for B (dB): ");
 
-            double C = InputAndValidate("C", new SideValidator(),
+            double sideC = InputAndValidate("C", sideValidator,
                 "Enter the length of side C (from 10^-16 to 10^16, >0): ");
-            double dC = InputAndValidate("dC", new ErrorValidator(C),
+            double dC = InputAndValidate("dC", new ErrorValidator(sideC),
                 "Enter the absolute error for C (dC): ");
 
-            Triangle triangle = new(A, dA, B, dB, C, dC);
+            Triangle triangle = new(sideA, dA, sideB, dB, sideC, dC);
 
             double area = triangle.ComputeArea();
             double dS = triangle.EstimateAreaError();
@@ -50,7 +53,7 @@ class Program
         }
     }
 
-    static double InputAndValidate(string paramName, IInputValidator validator, string prompt)
+    private static double InputAndValidate(string paramName, IInputValidator validator, string prompt)
     {
         while (true)
         {
@@ -62,6 +65,7 @@ class Program
                 {
                     return value;
                 }
+
                 Console.WriteLine($"Error: Invalid value for {paramName}. Try again.");
             }
             else

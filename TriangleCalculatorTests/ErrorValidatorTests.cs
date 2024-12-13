@@ -1,5 +1,4 @@
-﻿using TriangleCalculator;
-using TriangleCalculator.Validator;
+﻿using TriangleCalculator.Validator;
 
 namespace TriangleCalculatorTests;
 
